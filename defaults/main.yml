@@ -1,0 +1,12 @@
+---
+# defaults file for puppet-server
+puppet_repository_yum_url: http://yum.puppet.com/puppet8/el/$releasever/$basearch
+puppet_repository_rpm_gpgkey: http://yum.puppet.com/RPM-GPG-KEY-puppet-20250406
+puppet_repository_legacy_rpm_gpgkey: http://yum.puppet.com/RPM-GPG-KEY-puppet
+puppetlabs_repository_rpm_gpgkey: http://yum.puppet.com/RPM-GPG-KEY-puppetlabs
+puppet_repository_jammy_apt_url: deb http://apt.puppet.com jammy puppet8
+puppet_repository_focal_apt_url: deb http://apt.puppet.com focal puppet8
+puppet_repository_deb_gpgkey: http://apt.puppet.com/DEB-GPG-KEY-puppet-20250406
+puppet_repository_legacy_deb_gpgkey: http://apt.puppet.com/DEB-GPG-KEY-puppet
+puppetlabs_repository_deb_gpgkey: http://apt.puppet.com/DEB-GPG-KEY-puppetlabs
+puppetserver_port: 8140

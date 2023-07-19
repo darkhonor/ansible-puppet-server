@@ -1,0 +1,51 @@
+---
+- name: Install Puppet Repository GPG Key 
+  ansible.builtin.rpm_key:
+    key: '{{ puppet_repository_rpm_gpgkey }}'
+    state: present
+- name: Install Legacy Puppet Repository GPG Key 
+  ansible.builtin.rpm_key:
+    key: '{{ puppet_repository_legacy_rpm_gpgkey }}'
+    state: present
+- name: Install PuppetLabs Repository GPG Key 
+  ansible.builtin.rpm_key:
+    key: '{{ puppetlabs_repository_rpm_gpgkey }}'
+    state: present
+- name: Add Puppet8 RHEL Repository
+  ansible.builtin.yum_repository:
+    name: puppet8
+    description: "Puppet 8 Repository el - $basearch"
+    baseurl: '{{ puppet_repository_yum_url }}'
+    gpgcheck: true
+    gpgkey: '{{ puppet_repository_rpm_gpgkey }}'
+    enabled: true
+    state: present
+- name: Install Puppet Server (RHEL8 and Later)
+  ansible.builtin.dnf:
+    name:
+      - puppetserver
+      - firewalld
+      - python3-firewall
+      - java-17-openjdk
+    state: present
+  when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int >= 8
+- name: Install Puppet Server (RHEL7 and Earlier)
+  ansible.builtin.yum: 
+    name:
+      - puppetserver
+      - firewalld
+      - python3-firewall
+      - java-17-openjdk
+    state: present
+  when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 7
+- name: Configure the System Firewall 
+  ansible.posix.firewalld:
+    port: "{{ puppetserver_port }}/tcp"
+    permanent: true
+    immediate: true
+    state: enabled
+- name: Enable Puppet Server Service
+  ansible.builtin.service:
+    name: puppetserver
+    enabled: true
+    state: started

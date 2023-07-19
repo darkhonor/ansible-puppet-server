@@ -1,0 +1,37 @@
+---
+- name: Install Puppet Repository GPG Key 
+  ansible.builtin.apt_key:
+    url: '{{ puppet_repository_deb_gpgkey }}'
+    state: present
+- name: Install Legacy Puppet Repository GPG Key 
+  ansible.builtin.apt_key:
+    url: '{{ puppet_repository_legacy_deb_gpgkey }}'
+    state: present
+- name: Install PuppetLabs Repository GPG Key 
+  ansible.builtin.apt_key:
+    url: '{{ puppetlabs_repository_deb_gpgkey }}'
+    state: present
+- name: Add Puppet8 Apt Repository
+  ansible.builtin.apt_repository:
+    repo: '{{ puppet_repository_jammy_apt_url }}'
+    state: present
+    filename: puppet8
+- name: Install Puppet Server and Prerequisites
+  ansible.builtin.apt:
+    name:
+      - puppetserver
+      - ufw
+      - java-17-openjdk
+    state: present
+- name: Configure the System Firewall 
+  community.general.ufw:
+    port: '{{ puppetserver_port }}'
+    proto: tcp
+    permanent: true
+    immediate: true
+    state: enabled
+- name: Enable Puppet Server Service
+  ansible.builtin.service:
+    name: puppetserver
+    enabled: true
+    state: started
