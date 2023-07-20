@@ -1,13 +1,13 @@
 ---
-- name: Install Puppet Repository GPG Key 
+- name: Install Puppet Repository GPG Key
   ansible.builtin.rpm_key:
     key: '{{ puppet_repository_rpm_gpgkey }}'
     state: present
-- name: Install Legacy Puppet Repository GPG Key 
+- name: Install Legacy Puppet Repository GPG Key
   ansible.builtin.rpm_key:
     key: '{{ puppet_repository_legacy_rpm_gpgkey }}'
     state: present
-- name: Install PuppetLabs Repository GPG Key 
+- name: Install PuppetLabs Repository GPG Key
   ansible.builtin.rpm_key:
     key: '{{ puppetlabs_repository_rpm_gpgkey }}'
     state: present
@@ -30,7 +30,7 @@
     state: present
   when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int >= 8
 - name: Install Puppet Server (RHEL7 and Earlier)
-  ansible.builtin.yum: 
+  ansible.builtin.yum:
     name:
       - puppetserver
       - firewalld
@@ -38,7 +38,7 @@
       - java-17-openjdk
     state: present
   when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 7
-- name: Configure the System Firewall 
+- name: Configure the System Firewall
   ansible.posix.firewalld:
     port: "{{ puppetserver_port }}/tcp"
     permanent: true

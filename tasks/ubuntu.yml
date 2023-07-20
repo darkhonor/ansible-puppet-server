@@ -1,13 +1,13 @@
 ---
-- name: Install Puppet Repository GPG Key 
+- name: Install Puppet Repository GPG Key
   ansible.builtin.apt_key:
     url: '{{ puppet_repository_deb_gpgkey }}'
     state: present
-- name: Install Legacy Puppet Repository GPG Key 
+- name: Install Legacy Puppet Repository GPG Key
   ansible.builtin.apt_key:
     url: '{{ puppet_repository_legacy_deb_gpgkey }}'
     state: present
-- name: Install PuppetLabs Repository GPG Key 
+- name: Install PuppetLabs Repository GPG Key
   ansible.builtin.apt_key:
     url: '{{ puppetlabs_repository_deb_gpgkey }}'
     state: present
@@ -23,7 +23,7 @@
       - ufw
       - java-17-openjdk
     state: present
-- name: Configure the System Firewall 
+- name: Configure the System Firewall
   community.general.ufw:
     port: '{{ puppetserver_port }}'
     proto: tcp
