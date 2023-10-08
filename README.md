@@ -28,4 +28,4 @@ BSD
 
 ## Author Information
 
-Alex Ackerman, Twitter @Darkhonor
+Alex Ackerman, X @Darkhonor
